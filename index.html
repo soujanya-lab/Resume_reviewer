@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f2">
+  <meta name="description" content="Review a resume against a job description with private, client-side analysis.">
+  <title>Resume Review Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Resume Review Studio home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>folio<span class="brand-light">/review</span></span>
+      </a>
+      <div class="topbar-note"><span class="privacy-dot" aria-hidden="true"></span>Private by design <span class="topbar-divider">/</span> Runs in your browser</div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span>CAREER TOOLKIT</span><span class="eyebrow-line"></span><span>01 / REVIEW</span></p>
+        <div class="intro-row">
+          <div>
+            <h1 id="page-title">Make your next<br><span>move count.</span></h1>
+            <p class="intro-copy">See how your experience lines up with the role, and where your story can work harder.</p>
+          </div>
+          <div class="intro-stamp" aria-label="Resume review studio, issue 01">
+            <span class="stamp-ring">R<span>R</span></span>
+            <span class="stamp-caption">REVIEW<br>STUDIO · 01</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="input-panel panel" aria-labelledby="input-title">
+          <div class="panel-heading">
+            <div><p class="section-index">01 <span>— INPUT</span></p><h2 id="input-title">Build your review</h2></div>
+            <span class="step-indicator"><span class="step-active">01</span> <span class="step-slash">/</span> 02</span>
+          </div>
+
+          <div class="form-stack">
+            <div class="field-block">
+              <div class="field-heading"><label for="resume-file">Your resume</label><span class="field-hint">PDF, DOCX, TXT, MD</span></div>
+              <label class="upload-zone" for="resume-file" id="upload-zone">
+                <input id="resume-file" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown" aria-describedby="file-status">
+                <span class="upload-icon" aria-hidden="true">↑</span>
+                <span class="upload-main" id="upload-main">Drop a file here or <span>browse</span></span>
+                <span class="upload-sub" id="file-status" role="status">Your resume stays on this device</span>
+              </label>
+            </div>
+
+            <div class="field-block">
+              <div class="field-heading"><label for="resume-text">Resume text</label><span class="field-hint">PASTE OR EDIT</span></div>
+              <textarea id="resume-text" class="text-input resume-input" rows="8" placeholder="Paste your resume here. Include your experience, education, skills, and achievements for the most useful review." spellcheck="true"></textarea>
+              <div class="textarea-foot"><span id="resume-count">0 words</span><span>Required</span></div>
+            </div>
+
+            <div class="field-block">
+              <div class="field-heading"><label for="job-description">Job description</label><span class="field-hint">THE ROLE YOU WANT</span></div>
+              <textarea id="job-description" class="text-input job-input" rows="7" placeholder="Paste the job description here. The role's responsibilities and qualifications help us identify relevant keywords." spellcheck="true"></textarea>
+              <div class="textarea-foot"><span id="job-count">0 words</span><span>Required</span></div>
+            </div>
+          </div>
+
+          <div id="form-message" class="form-message" role="alert" hidden></div>
+          <div class="form-actions">
+            <button class="button button-primary" id="analyze-button" type="button"><span>Analyze resume</span><span aria-hidden="true">↗</span></button>
+            <button class="button button-secondary" id="sample-button" type="button">Load sample</button>
+            <button class="button button-quiet" id="clear-button" type="button">Clear inputs</button>
+          </div>
+          <p class="privacy-note"><span aria-hidden="true">◆</span> Analysis happens locally. Your resume is never uploaded.</p>
+        </section>
+
+        <section class="results-panel panel" aria-labelledby="results-title" aria-live="polite" aria-busy="false" id="results-panel">
+          <div class="panel-heading results-heading">
+            <div><p class="section-index">02 <span>— INSIGHT</span></p><h2 id="results-title">Your review</h2></div>
+            <span class="results-state" id="results-state"><span class="state-dot"></span> AWAITING INPUT</span>
+          </div>
+          <div id="results-content" class="results-content">
+            <div class="empty-results">
+              <div class="empty-graphic" aria-hidden="true"><span class="graphic-sheet"></span><span class="graphic-lens"></span><span class="graphic-spark">✳</span></div>
+              <p class="empty-kicker">A clearer picture starts here</p>
+              <p class="empty-copy">Add your resume and a job description to get a practical, role-specific review.</p>
+              <div class="empty-rule"><span></span><span></span><span></span></div>
+              <p class="empty-foot">KEYWORDS <b>·</b> STRUCTURE <b>·</b> IMPACT</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="saved-section" aria-labelledby="saved-title">
+        <div class="saved-heading">
+          <div><p class="section-index">03 <span>— LOCAL ARCHIVE</span></p><h2 id="saved-title">Saved reviews <span class="saved-count" id="saved-count">0</span></h2></div>
+          <button class="button button-delete-all" id="delete-all-button" type="button" disabled><span aria-hidden="true">×</span> Delete all</button>
+        </div>
+        <div id="saved-reviews" class="saved-list" aria-live="polite">
+          <p class="saved-empty">Your completed reviews will appear here.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>FOLIO / REVIEW STUDIO</span><span>YOUR CAREER, IN CLEARER FOCUS.</span></footer>
+  </div>
+</body>
+</html>
